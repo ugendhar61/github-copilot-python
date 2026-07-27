@@ -1,14 +1,28 @@
 body {
     font-family: Arial, sans-serif;
     background: #f4f4f4;
+    color: #333;
     text-align: center;
     margin: 0;
     padding: 0;
+    transition: background 0.2s, color 0.2s;
+}
+
+body.dark-mode {
+    background: #121212;
+    color: #f5f5f5;
 }
 
 h1 {
     margin-top: 30px;
     color: #333;
+}
+
+body.dark-mode h1,
+body.dark-mode label,
+body.dark-mode #timer,
+body.dark-mode #message {
+    color: #f5f5f5;
 }
 
 #sudoku-board {
@@ -17,6 +31,12 @@ h1 {
     border: 4px solid #333;
     background: #fff;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+body.dark-mode #sudoku-board {
+    border-color: #6b6b6b;
+    background: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.45);
 }
 
 .sudoku-row {
@@ -31,21 +51,135 @@ h1 {
     font-size: 20px;
     outline: none;
     background: #fafafa;
-    transition: background 0.2s;
+    color: #222;
+    transition: background 0.2s, color 0.2s;
+}
+
+body.dark-mode .sudoku-cell {
+    background: #2b2b2b;
+    border-color: #555;
+    color: #f5f5f5;
+}
+
+.sudoku-row:nth-child(-n + 3) .sudoku-cell:nth-child(-n + 3) {
+    background: #f7f9fb;
+}
+
+body.dark-mode .sudoku-row:nth-child(-n + 3) .sudoku-cell:nth-child(-n + 3) {
+    background: #2f3742;
+}
+
+.sudoku-row:nth-child(-n + 3) .sudoku-cell:nth-child(n + 4):nth-child(-n + 6) {
+    background: #eef3f8;
+}
+
+body.dark-mode .sudoku-row:nth-child(-n + 3) .sudoku-cell:nth-child(n + 4):nth-child(-n + 6) {
+    background: #28313d;
+}
+
+.sudoku-row:nth-child(-n + 3) .sudoku-cell:nth-child(n + 7):nth-child(-n + 9) {
+    background: #f7f9fb;
+}
+
+body.dark-mode .sudoku-row:nth-child(-n + 3) .sudoku-cell:nth-child(n + 7):nth-child(-n + 9) {
+    background: #2f3742;
+}
+
+.sudoku-row:nth-child(n + 4):nth-child(-n + 6) .sudoku-cell:nth-child(-n + 3) {
+    background: #eef3f8;
+}
+
+body.dark-mode .sudoku-row:nth-child(n + 4):nth-child(-n + 6) .sudoku-cell:nth-child(-n + 3) {
+    background: #28313d;
+}
+
+.sudoku-row:nth-child(n + 4):nth-child(-n + 6) .sudoku-cell:nth-child(n + 4):nth-child(-n + 6) {
+    background: #f7f9fb;
+}
+
+body.dark-mode .sudoku-row:nth-child(n + 4):nth-child(-n + 6) .sudoku-cell:nth-child(n + 4):nth-child(-n + 6) {
+    background: #2f3742;
+}
+
+.sudoku-row:nth-child(n + 4):nth-child(-n + 6) .sudoku-cell:nth-child(n + 7):nth-child(-n + 9) {
+    background: #eef3f8;
+}
+
+body.dark-mode .sudoku-row:nth-child(n + 4):nth-child(-n + 6) .sudoku-cell:nth-child(n + 7):nth-child(-n + 9) {
+    background: #28313d;
+}
+
+.sudoku-row:nth-child(n + 7):nth-child(-n + 9) .sudoku-cell:nth-child(-n + 3) {
+    background: #f7f9fb;
+}
+
+body.dark-mode .sudoku-row:nth-child(n + 7):nth-child(-n + 9) .sudoku-cell:nth-child(-n + 3) {
+    background: #2f3742;
+}
+
+.sudoku-row:nth-child(n + 7):nth-child(-n + 9) .sudoku-cell:nth-child(n + 4):nth-child(-n + 6) {
+    background: #eef3f8;
+}
+
+body.dark-mode .sudoku-row:nth-child(n + 7):nth-child(-n + 9) .sudoku-cell:nth-child(n + 4):nth-child(-n + 6) {
+    background: #28313d;
+}
+
+.sudoku-row:nth-child(n + 7):nth-child(-n + 9) .sudoku-cell:nth-child(n + 7):nth-child(-n + 9) {
+    background: #f7f9fb;
+}
+
+body.dark-mode .sudoku-row:nth-child(n + 7):nth-child(-n + 9) .sudoku-cell:nth-child(n + 7):nth-child(-n + 9) {
+    background: #2f3742;
 }
 
 .sudoku-cell:focus {
     background: #e0f7fa;
 }
 
+body.dark-mode .sudoku-cell:focus {
+    background: #234b5e;
+    color: #ffffff;
+}
+
 .sudoku-cell.prefilled {
-    background: #e0e0e0;
+    background: #e0e0e0 !important;
     font-weight: bold;
     color: #333;
 }
 
+body.dark-mode .sudoku-cell.prefilled {
+    background: #4f4f4f !important;
+    color: #f5f5f5;
+}
+
 .sudoku-cell.incorrect {
-    background: #ffcdd2;
+    background: #ffcdd2 !important;
+    color: #7f1d1d;
+}
+
+body.dark-mode .sudoku-cell.incorrect {
+    background: #7f1d1d !important;
+    color: #ffe5e5;
+}
+
+.sudoku-cell.hint-cell {
+    background: #f3e5f5 !important;
+    border-color: #8e24aa;
+    font-weight: bold;
+    color: #6a1b9a;
+    box-shadow: inset 0 0 0 2px #8e24aa;
+}
+
+body.dark-mode .sudoku-cell.hint-cell {
+    background: #5b2a86 !important;
+    border-color: #d8b4fe;
+    color: #f3e8ff;
+    box-shadow: inset 0 0 0 2px #d8b4fe;
+}
+
+.sudoku-cell.hint-cell:focus {
+    background: #f3e5f5 !important;
 }
 
 .sudoku-cell:nth-child(3),
@@ -56,6 +190,16 @@ h1 {
 .sudoku-row:nth-child(3) .sudoku-cell,
 .sudoku-row:nth-child(6) .sudoku-cell {
     border-bottom: 3px solid #333;
+}
+
+body.dark-mode .sudoku-cell:nth-child(3),
+body.dark-mode .sudoku-cell:nth-child(6) {
+    border-right-color: #888;
+}
+
+body.dark-mode .sudoku-row:nth-child(3) .sudoku-cell,
+body.dark-mode .sudoku-row:nth-child(6) .sudoku-cell {
+    border-bottom-color: #888;
 }
 
 .controls {
@@ -74,12 +218,238 @@ button {
     transition: background 0.2s;
 }
 
+body.dark-mode button {
+    background: #2f6fed;
+    color: #f5f5f5;
+}
+
 button:hover {
     background: #1565c0;
+}
+
+body.dark-mode button:hover {
+    background: #2558b8;
 }
 
 #message {
     margin-left: 20px;
     font-size: 16px;
     color: #d32f2f;
+}
+
+body.dark-mode #message {
+    color: #ffb4b4;
+}
+
+#scoreboard {
+    display: inline-block;
+    margin: 30px auto;
+    padding: 20px 30px;
+    border: 2px solid #1976d2;
+    background: #fafafa;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 600px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+body.dark-mode #scoreboard {
+    background: #1e1e1e;
+    border-color: #2f6fed;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.45);
+}
+
+#scoreboard h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1976d2;
+    font-size: 24px;
+}
+
+body.dark-mode #scoreboard h2 {
+    color: #90caf9;
+}
+
+#scoreboard p {
+    color: #666;
+    font-size: 16px;
+}
+
+body.dark-mode #scoreboard p {
+    color: #b0bec5;
+}
+
+#scoreboard ol {
+    text-align: left;
+    list-style-position: inside;
+    padding: 0;
+    margin: 0;
+}
+
+#scoreboard li {
+    padding: 12px 10px;
+    margin: 8px 0;
+    background: #fff;
+    border-left: 4px solid #1976d2;
+    border-radius: 3px;
+    font-size: 15px;
+    color: #333;
+    transition: background 0.2s;
+}
+
+body.dark-mode #scoreboard li {
+    background: #2b2b2b;
+    border-left-color: #90caf9;
+    color: #e0e0e0;
+}
+
+#scoreboard li:hover {
+    background: #f0f0f0;
+}
+
+body.dark-mode #scoreboard li:hover {
+    background: #333333;
+}
+
+#scoreboard strong {
+    color: #1976d2;
+    margin-right: 8px;
+}
+
+body.dark-mode #scoreboard strong {
+    color: #90caf9;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 599px) {
+    body {
+        padding: 0 10px;
+    }
+
+    h1 {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        font-size: 24px;
+    }
+
+    #sudoku-board {
+        margin: 15px auto;
+        border-width: 3px;
+    }
+
+    .sudoku-cell {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+        border-width: 0.8px;
+    }
+
+    .sudoku-cell:nth-child(3),
+    .sudoku-cell:nth-child(6) {
+        border-right-width: 2px;
+    }
+
+    .sudoku-row:nth-child(3) .sudoku-cell,
+    .sudoku-row:nth-child(6) .sudoku-cell {
+        border-bottom-width: 2px;
+    }
+
+    .controls {
+        margin: 12px auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    button {
+        padding: 6px 12px;
+        margin: 0;
+        font-size: 13px;
+        flex: 0 1 auto;
+    }
+
+    select {
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    #timer {
+        font-size: 13px;
+    }
+
+    #message {
+        margin-left: 0;
+        font-size: 13px;
+        display: block;
+        margin-top: 8px;
+    }
+
+    #scoreboard {
+        margin: 15px 10px;
+        padding: 15px 20px;
+        max-width: 100%;
+    }
+
+    #scoreboard li {
+        font-size: 13px;
+        padding: 10px 8px;
+        margin: 6px 0;
+    }
+}
+
+@media (max-width: 399px) {
+    h1 {
+        font-size: 20px;
+    }
+
+    #sudoku-board {
+        margin: 10px auto;
+    }
+
+    .sudoku-cell {
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    select {
+        padding: 5px 6px;
+        font-size: 12px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    #timer {
+        font-size: 12px;
+    }
+
+    #message {
+        font-size: 12px;
+    }
+
+    .controls {
+        gap: 6px;
+    }
+
+    #scoreboard {
+        margin: 10px 5px;
+        padding: 12px 15px;
+    }
+
+    #scoreboard li {
+        font-size: 12px;
+        padding: 8px 6px;
+    }
 }
