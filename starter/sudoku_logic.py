@@ -136,6 +136,11 @@ def remove_cells(board: Board, clues: int) -> None:
         else:
             board[row][col] = original_value
 
+# NOTE: Copilot's first version of this function accepted both a raw
+# `clues` integer and a `difficulty` string with a helper (_resolve_clue_count)
+# to reconcile them. This was rejected as unnecessarily complex for this
+# project's actual use case (only difficulty is ever passed in from app.py),
+# so it was simplified to take a single `difficulty` parameter.
 
 def generate_puzzle(difficulty: str = "medium") -> Tuple[Board, Board]:
     """Generate a Sudoku puzzle and its solved board for the requested difficulty."""

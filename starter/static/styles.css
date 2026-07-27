@@ -163,6 +163,18 @@ body.dark-mode .sudoku-cell.incorrect {
     color: #ffe5e5;
 }
 
+.sudoku-cell.conflict {
+    background: #ffe0e0 !important;
+    color: #b71c1c;
+    box-shadow: inset 0 0 0 2px #d32f2f;
+}
+
+body.dark-mode .sudoku-cell.conflict {
+    background: #5d1b1b !important;
+    color: #ffe5e5;
+    box-shadow: inset 0 0 0 2px #ff8a80;
+}
+
 .sudoku-cell.hint-cell {
     background: #f3e5f5 !important;
     border-color: #8e24aa;
@@ -279,36 +291,55 @@ body.dark-mode #scoreboard p {
     color: #b0bec5;
 }
 
-#scoreboard ol {
+#scoreboard table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#scoreboard th,
+#scoreboard td {
+    padding: 10px 12px;
     text-align: left;
-    list-style-position: inside;
-    padding: 0;
-    margin: 0;
+    border-bottom: 1px solid #d9d9d9;
+    font-size: 14px;
 }
 
-#scoreboard li {
-    padding: 12px 10px;
-    margin: 8px 0;
+#scoreboard th {
+    background: #1976d2;
+    color: #fff;
+    font-weight: 600;
+}
+
+body.dark-mode #scoreboard th {
+    background: #2f6fed;
+}
+
+#scoreboard td {
     background: #fff;
-    border-left: 4px solid #1976d2;
-    border-radius: 3px;
-    font-size: 15px;
     color: #333;
-    transition: background 0.2s;
 }
 
-body.dark-mode #scoreboard li {
+body.dark-mode #scoreboard td {
     background: #2b2b2b;
-    border-left-color: #90caf9;
     color: #e0e0e0;
+    border-bottom-color: #555;
 }
 
-#scoreboard li:hover {
-    background: #f0f0f0;
+#scoreboard tbody tr:nth-child(even) td {
+    background: #f7f9fb;
 }
 
-body.dark-mode #scoreboard li:hover {
+body.dark-mode #scoreboard tbody tr:nth-child(even) td {
     background: #333333;
+}
+
+#scoreboard tbody tr:hover td {
+    background: #e8f1ff;
+}
+
+body.dark-mode #scoreboard tbody tr:hover td {
+    background: #3b3b3b;
 }
 
 #scoreboard strong {
@@ -395,10 +426,14 @@ body.dark-mode #scoreboard strong {
         max-width: 100%;
     }
 
-    #scoreboard li {
+    #scoreboard table {
         font-size: 13px;
-        padding: 10px 8px;
-        margin: 6px 0;
+    }
+
+    #scoreboard th,
+    #scoreboard td {
+        padding: 8px 10px;
+        font-size: 13px;
     }
 }
 
@@ -448,8 +483,13 @@ body.dark-mode #scoreboard strong {
         padding: 12px 15px;
     }
 
-    #scoreboard li {
+    #scoreboard table {
         font-size: 12px;
-        padding: 8px 6px;
+    }
+
+    #scoreboard th,
+    #scoreboard td {
+        padding: 6px 8px;
+        font-size: 12px;
     }
 }

@@ -68,7 +68,11 @@ function saveScoreboardEntry(entry) {
   localStorage.setItem(SCOREBOARD_KEY, JSON.stringify(topEntries));
   return topEntries;
 }
-
+// NOTE: Copilot's first version of this function built the scoreboard list
+// using innerHTML with a template string containing the raw player name.
+// This was rejected because it would let a player's name be interpreted as
+// HTML/script (XSS risk) if it contained tags. Replaced with safe DOM
+// construction using textContent for the player name.
 function renderScoreboard() {
   const scoreboardDiv = document.getElementById('scoreboard');
   const entries = getScoreboardEntries();
@@ -83,27 +87,108 @@ function renderScoreboard() {
     return;
   }
 
-  const ol = document.createElement('ol');
-  entries.forEach((entry, index) => {
-    const li = document.createElement('li');
-    
-    const rank = document.createElement('strong');
-    rank.textContent = `#${index + 1}`;
-    li.appendChild(rank);
-    
-    li.appendChild(document.createTextNode(' '));
-    
-    // Player name is safely set with textContent
-    const nameSpan = document.createElement('span');
-    nameSpan.textContent = entry.playerName;
-    li.appendChild(nameSpan);
-    
-    li.appendChild(document.createTextNode(` — ${formatTime(entry.elapsedSeconds)} — ${entry.difficulty} — hints: ${entry.hintsUsed}`));
-    
-    ol.appendChild(li);
+  const table = document.createElement('table');
+  table.className = 'scoreboard-table';
+
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  ['Player Name', 'Time', 'Difficulty', 'Hints'].forEach((heading) => {
+    const th = document.createElement('th');
+    th.textContent = heading;
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  entries.forEach((entry) => {
+    const row = document.createElement('tr');
+
+    const nameCell = document.createElement('td');
+    nameCell.textContent = entry.playerName;
+    row.appendChild(nameCell);
+
+    const timeCell = document.createElement('td');
+    timeCell.textContent = formatTime(entry.elapsedSeconds);
+    row.appendChild(timeCell);
+
+    const difficultyCell = document.createElement('td');
+    difficultyCell.textContent = entry.difficulty;
+    row.appendChild(difficultyCell);
+
+    const hintsCell = document.createElement('td');
+    hintsCell.textContent = entry.hintsUsed;
+    row.appendChild(hintsCell);
+
+    tbody.appendChild(row);
+  });
+  table.appendChild(tbody);
+
+  scoreboardDiv.appendChild(table);
+}
+
+function getBoardCells() {
+  const boardDiv = document.getElementById('sudoku-board');
+  if (!boardDiv) {
+    return [];
+  }
+  return Array.from(boardDiv.getElementsByTagName('input'));
+}
+
+function getCellIndex(cell) {
+  return Number(cell.dataset.row) * SIZE + Number(cell.dataset.col);
+}
+
+function isSameGroup(indexA, indexB) {
+  const rowA = Math.floor(indexA / SIZE);
+  const colA = indexA % SIZE;
+  const rowB = Math.floor(indexB / SIZE);
+  const colB = indexB % SIZE;
+
+  const sameRow = rowA === rowB;
+  const sameCol = colA === colB;
+  const sameBox = Math.floor(rowA / 3) === Math.floor(rowB / 3) && Math.floor(colA / 3) === Math.floor(colB / 3);
+
+  return sameRow || sameCol || sameBox;
+}
+
+function refreshConflictHighlights() {
+  const cells = getBoardCells();
+  cells.forEach((cell) => cell.classList.remove('conflict'));
+
+  const conflictIndices = new Set();
+
+  cells.forEach((cell, index) => {
+    const value = cell.value.trim();
+    if (!value) {
+      return;
+    }
+
+    cells.forEach((otherCell, otherIndex) => {
+      if (otherIndex === index) {
+        return;
+      }
+
+      const otherValue = otherCell.value.trim();
+      if (!otherValue || value !== otherValue) {
+        return;
+      }
+
+      if (!isSameGroup(index, otherIndex)) {
+        return;
+      }
+
+      conflictIndices.add(index);
+      conflictIndices.add(otherIndex);
+    });
   });
 
-  scoreboardDiv.appendChild(ol);
+  conflictIndices.forEach((index) => {
+    const cell = cells[index];
+    if (cell) {
+      cell.classList.add('conflict');
+    }
+  });
 }
 
 function toggleScoreboard() {
@@ -131,6 +216,7 @@ function createBoardElement() {
       input.addEventListener('input', (e) => {
         const val = e.target.value.replace(/[^1-9]/g, '');
         e.target.value = val;
+        refreshConflictHighlights();
       });
       rowDiv.appendChild(input);
     }
@@ -158,6 +244,8 @@ function renderPuzzle(puz) {
       }
     }
   }
+
+  refreshConflictHighlights();
 }
 
 async function newGame() {
